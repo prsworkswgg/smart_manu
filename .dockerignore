@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.db
+*.sqlite
+*.sqlite3
+data/generated/
+data/processed/
+models/*.joblib
+models/*.json
+reports/*.md
+reports/*.csv
+assets/screenshots/*.png
+.git/

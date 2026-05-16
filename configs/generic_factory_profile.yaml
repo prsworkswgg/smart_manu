@@ -1,0 +1,270 @@
+project:
+  name: smart-manufacturing-ai-operations-platform
+  profile_name: generic_factory_profile
+  profile_version: 1.0.0
+  data_policy: simulated_data_only
+  description: Generic simulated manufacturing profile for adapting the platform to other factories.
+
+runtime:
+  timezone: Asia/Bangkok
+  random_seed: 123
+  default_shift: A
+  simulation_mode: realtime
+
+storage:
+  database_type: sqlite
+  sqlite_path: database/smart_manufacturing.db
+
+api:
+  base_url: http://127.0.0.1:8000
+  health_endpoint: /health
+  sensor_endpoint: /ingest/sensor-reading
+  production_endpoint: /ingest/production-event
+  batch_endpoint: /ingest/batch
+  timeout_seconds: 10
+
+factory:
+  site_id: SIM_GENERIC_SITE_01
+  site_name: Simulated Generic Manufacturing Site
+  product_family: configurable_manufactured_parts
+  lines:
+    - line_id: LINE_1
+      line_name: Generic Production Line 1
+      target_throughput_per_hour: 500
+      stations:
+        - station_id: ST_MILL_01
+          station_name: Milling Station
+          machine_id: GEN_MILL_01
+          machine_type: milling_machine
+          criticality: high
+        - station_id: ST_ASSEMBLY_01
+          station_name: Assembly Station
+          machine_id: GEN_ASSEMBLY_01
+          machine_type: assembly_cell
+          criticality: medium
+        - station_id: ST_TEST_01
+          station_name: Test Station
+          machine_id: GEN_TEST_01
+          machine_type: test_bench
+          criticality: medium
+        - station_id: ST_PACK_01
+          station_name: Packaging Station
+          machine_id: GEN_PACK_01
+          machine_type: packaging_machine
+          criticality: low
+    - line_id: LINE_2
+      line_name: Generic Production Line 2
+      target_throughput_per_hour: 450
+      stations:
+        - station_id: ST_MILL_02
+          station_name: Milling Station
+          machine_id: GEN_MILL_02
+          machine_type: milling_machine
+          criticality: high
+        - station_id: ST_ASSEMBLY_02
+          station_name: Assembly Station
+          machine_id: GEN_ASSEMBLY_02
+          machine_type: assembly_cell
+          criticality: medium
+        - station_id: ST_TEST_02
+          station_name: Test Station
+          machine_id: GEN_TEST_02
+          machine_type: test_bench
+          criticality: medium
+
+sensor_ranges:
+  air_temperature:
+    unit: celsius
+    normal_min: 20.0
+    normal_max: 35.0
+    warning_min: 15.0
+    warning_max: 42.0
+  process_temperature:
+    unit: celsius
+    normal_min: 30.0
+    normal_max: 90.0
+    warning_min: 20.0
+    warning_max: 115.0
+  vibration_rms:
+    unit: mm_per_sec
+    normal_min: 0.4
+    normal_max: 4.0
+    warning_min: 0.1
+    warning_max: 8.0
+  vibration_peak:
+    unit: mm_per_sec
+    normal_min: 1.5
+    normal_max: 12.0
+    warning_min: 0.5
+    warning_max: 24.0
+  pressure:
+    unit: kpa
+    normal_min: 80.0
+    normal_max: 170.0
+    warning_min: 60.0
+    warning_max: 220.0
+  torque:
+    unit: newton_meter
+    normal_min: 10.0
+    normal_max: 80.0
+    warning_min: 4.0
+    warning_max: 120.0
+  rotational_speed:
+    unit: rpm
+    normal_min: 600
+    normal_max: 3600
+    warning_min: 300
+    warning_max: 4800
+  motor_current:
+    unit: ampere
+    normal_min: 3.0
+    normal_max: 25.0
+    warning_min: 1.0
+    warning_max: 40.0
+  power_consumption:
+    unit: kw
+    normal_min: 1.0
+    normal_max: 18.0
+    warning_min: 0.2
+    warning_max: 30.0
+  tool_wear:
+    unit: percent
+    normal_min: 0.0
+    normal_max: 75.0
+    warning_min: 0.0
+    warning_max: 100.0
+  operating_hours:
+    unit: hour
+    normal_min: 0.0
+    normal_max: 8000.0
+  production_load:
+    unit: ratio
+    normal_min: 0.45
+    normal_max: 1.20
+  ambient_humidity:
+    unit: percent
+    normal_min: 30.0
+    normal_max: 75.0
+    warning_min: 15.0
+    warning_max: 90.0
+
+production_ranges:
+  cycle_time_sec:
+    normal_min: 5.0
+    normal_max: 18.0
+    warning_max: 32.0
+  throughput_count:
+    normal_min: 4
+    normal_max: 12
+  station_yield:
+    normal_min: 0.94
+    normal_max: 0.995
+    warning_min: 0.88
+  reject_count:
+    normal_min: 0
+    normal_max: 4
+  rework_count:
+    normal_min: 0
+    normal_max: 5
+  defect_rate:
+    normal_min: 0.005
+    normal_max: 0.055
+    warning_max: 0.12
+  micro_stop_count:
+    normal_min: 0
+    normal_max: 4
+    warning_max: 10
+  downtime_minutes:
+    normal_min: 0.0
+    normal_max: 3.0
+    warning_max: 20.0
+  wip_count:
+    normal_min: 5
+    normal_max: 120
+  queue_length:
+    normal_min: 0
+    normal_max: 50
+  inspection_score_proxy:
+    normal_min: 0.86
+    normal_max: 0.995
+  process_stability_index:
+    normal_min: 0.76
+    normal_max: 0.995
+
+causal_model:
+  tool_wear:
+    base_increment_per_hour: 0.045
+    load_multiplier: 0.070
+    high_temperature_multiplier: 0.030
+  torque:
+    base_by_machine_type:
+      milling_machine: 42.0
+      assembly_cell: 18.0
+      test_bench: 12.0
+      packaging_machine: 16.0
+    tool_wear_coefficient: 0.35
+    load_coefficient: 10.0
+  motor_current:
+    base_ampere: 6.0
+    torque_coefficient: 0.15
+    vibration_coefficient: 0.40
+  vibration:
+    base_rms: 1.00
+    tool_wear_coefficient: 0.036
+    speed_imbalance_coefficient: 0.00045
+  cycle_time:
+    base_seconds: 10.0
+    vibration_coefficient: 0.75
+    queue_pressure_coefficient: 0.030
+  micro_stops:
+    vibration_threshold: 4.0
+    cycle_time_threshold: 18.0
+    extra_stops_when_unstable: 4
+  quality:
+    inspection_score_from_vibration: -0.020
+    inspection_score_from_temperature: -0.003
+    defect_rate_from_low_score: 0.15
+    yield_from_defect_rate: -0.80
+  maintenance_reset:
+    tool_wear_reset_ratio: 0.30
+    vibration_reset_ratio: 0.50
+    current_reset_ratio: 0.70
+
+data_quality_injection:
+  enabled: true
+  global_probability: 0.030
+  issue_probabilities:
+    missing_value: 0.005
+    duplicate_timestamp: 0.004
+    timestamp_gap: 0.004
+    sensor_dropout: 0.004
+    stuck_sensor: 0.004
+    sensor_drift: 0.004
+    extreme_outlier: 0.003
+    wrong_unit: 0.001
+    late_reading: 0.001
+
+ml:
+  failure_classification:
+    target: failure_label
+    preferred_model: random_forest_classifier
+    fallback_model: gradient_boosting_classifier
+    alert_threshold: 0.60
+    high_risk_threshold: 0.78
+  rul_regression:
+    target: rul_estimate_hours
+    preferred_model: random_forest_regressor
+    fallback_model: gradient_boosting_regressor
+    low_rul_threshold_hours: 36
+  anomaly_detection:
+    preferred_model: isolation_forest
+    contamination: 0.05
+    alert_score_threshold: -0.10
+  split:
+    strategy: time_aware
+    test_fraction: 0.20
+
+dashboard:
+  default_line_id: LINE_1
+  refresh_seconds: 5
+  disclaimer: Simulated data only. Not real customer, vendor, or factory data.
