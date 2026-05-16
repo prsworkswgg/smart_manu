@@ -1,0 +1,81 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# SQLite and generated local data
+*.db
+*.sqlite
+*.sqlite3
+*.db-shm
+*.db-wal
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+/data/
+local-buffer/
+acquisition-csharp/SensorCollector/local-buffer/
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+
+# C# / .NET
+bin/
+obj/
+*.user
+*.suo
+*.csproj.user
+TestResults/
+
+# Generated model artifacts
+models/*.joblib
+models/*.pkl
+models/*.pickle
+models/*.onnx
+models/*.json
+!models/.gitkeep
+
+# Reports and exports
+reports/*.pdf
+reports/*.html
+reports/*.csv
+reports/*.xlsx
+reports/*.json
+!reports/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS and IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary files
+tmp/
+temp/
+*.tmp

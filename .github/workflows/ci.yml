@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+      - name: Compile Python
+        run: python -m compileall backend-python dashboard scripts
+      - name: Run pytest
+        run: pytest -q
+      - name: Basic imports
+        run: |
+          PYTHONPATH=backend-python/src:backend-python python - <<'PY'
+          import api.main
+          from features.feature_engineering import FEATURE_COLUMNS, assert_no_leakage
+          assert_no_leakage(FEATURE_COLUMNS)
+          print('imports OK')
+          PY
+      - name: Optional dotnet build
+        continue-on-error: true
+        run: |
+          if command -v dotnet >/dev/null 2>&1; then
+            cd acquisition-csharp/SensorCollector
+            dotnet restore
+            dotnet build --no-restore
+          else
+            echo "dotnet not available; skipping"
+          fi

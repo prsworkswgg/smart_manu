@@ -1,0 +1,27 @@
+@startuml
+title Shift Handover and Alert Triage Flow
+
+actor "Shift Lead" as Lead
+participant "Streamlit Dashboard" as Dash
+database "SQLite" as DB
+participant "FastAPI Inference" as API
+participant "ML Artifacts" as ML
+
+Lead -> Dash : Open Executive Overview
+Dash -> DB : Read latest predictions, alerts, quality issues
+Dash -> Dash : Build action queue
+Dash --> Lead : Show priority actions
+
+Lead -> Dash : Select machine
+Dash -> DB : Read sensor and prediction history
+Dash --> Lead : Show trend, health score, RUL, recommendation
+
+Lead -> API : Trigger prediction via endpoint or script
+API -> ML : Load model bundle
+API -> DB : Store prediction, alert, diagnostic hint
+API --> Lead : Return risk and recommendation
+
+Lead -> Dash : Export report
+Dash -> DB : Read operational summary
+Dash --> Lead : Markdown shift-handover report
+@enduml

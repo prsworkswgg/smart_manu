@@ -1,0 +1,46 @@
+@startuml
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam wrapWidth 180
+title Smart Manufacturing AI Operations Platform - Production Grade MVP
+
+actor "Operator / Shift Lead" as Operator
+node "Factory Edge PC" as Edge {
+  component "C# SensorCollector" as Collector
+  component "Local JSONL Buffer" as Buffer
+  component "Retry Queue" as Retry
+}
+
+node "Local Analytics Node" as Node {
+  component "FastAPI Service" as API
+  database "SQLite MVP Store" as DB
+  component "Data Quality Engine" as DQ
+  component "Feature Engineering" as FE
+  component "ML Training Jobs" as Train
+  component "Model Artifacts" as Artifacts
+  component "Inference Runtime" as Infer
+}
+
+node "Operations UI" as UI {
+  component "Streamlit Command Center" as Dashboard
+  component "Markdown / CSV Reports" as Reports
+}
+
+Collector --> API : HTTP JSON
+Collector --> Buffer : failed payloads
+Buffer --> Retry : replay
+Retry --> API
+API --> DB : ingest
+DB --> DQ
+DQ --> DB : quality issues
+DB --> FE
+FE --> Train
+Train --> Artifacts
+Train --> DB : registry
+API --> Infer
+Infer --> Artifacts
+Infer --> DB : predictions / alerts / hints
+Dashboard --> DB
+Dashboard --> Reports
+Operator --> Dashboard
+@enduml
