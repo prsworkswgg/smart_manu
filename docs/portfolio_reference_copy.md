@@ -3,6 +3,9 @@
 Use this as copy-ready portfolio content. Replace the live demo placeholder after
 the Streamlit Community Cloud app is deployed.
 
+For a shorter paste-ready Markdown/HTML block, use
+`docs/portfolio_paste_pack.md`.
+
 ## Project Card
 
 **Title:** Smart Manufacturing AI Operations Platform
