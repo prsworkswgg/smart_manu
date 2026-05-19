@@ -3,12 +3,12 @@
 This file is the final copy/paste pack for a portfolio page, GitHub profile,
 Notion page, personal website, or job application attachment.
 
-Replace `PASTE_STREAMLIT_URL_HERE` after the Streamlit Community Cloud app is
-deployed.
+Live Streamlit Community Cloud URL:
+`https://smart-manu-portfolio-prsworkswgg.streamlit.app/`.
 
 ## Essential Links
 
-- Live demo: `PASTE_STREAMLIT_URL_HERE`
+- Live demo: <https://smart-manu-portfolio-prsworkswgg.streamlit.app/>
 - Source code: <https://github.com/prsworkswgg/smart_manu/tree/codex/streamlit-portfolio-polish>
 - Streamlit main file path: `streamlit_app.py`
 - Portfolio reference: <https://github.com/prsworkswgg/smart_manu/blob/codex/streamlit-portfolio-polish/docs/portfolio_reference_copy.md>
@@ -33,7 +33,7 @@ Use these image URLs directly in a portfolio page.
 
 ![Smart Manufacturing AI Operations Platform - Command Center](https://raw.githubusercontent.com/prsworkswgg/smart_manu/codex/streamlit-portfolio-polish/assets/screenshots/desktop/01_command_center.png)
 
-**Live demo:** PASTE_STREAMLIT_URL_HERE  
+**Live demo:** https://smart-manu-portfolio-prsworkswgg.streamlit.app/  
 **Source code:** https://github.com/prsworkswgg/smart_manu/tree/codex/streamlit-portfolio-polish  
 **Role:** Full-stack Industrial AI / Machine Learning Engineering project  
 **Tech stack:** C# .NET, FastAPI, Python, SQLite, scikit-learn, Streamlit, Plotly, pytest
@@ -106,7 +106,7 @@ closed-loop production control system.
       <li>Synthetic-data boundary and honest production-readiness notes</li>
     </ul>
     <p>
-      <a href="PASTE_STREAMLIT_URL_HERE">Live demo</a>
+      <a href="https://smart-manu-portfolio-prsworkswgg.streamlit.app/">Live demo</a>
       <a href="https://github.com/prsworkswgg/smart_manu/tree/codex/streamlit-portfolio-polish">Source code</a>
     </p>
   </div>
@@ -118,7 +118,7 @@ closed-loop production control system.
 ```md
 # Smart Manufacturing AI Operations Platform
 
-**Live demo:** PASTE_STREAMLIT_URL_HERE  
+**Live demo:** https://smart-manu-portfolio-prsworkswgg.streamlit.app/  
 **Source code:** https://github.com/prsworkswgg/smart_manu/tree/codex/streamlit-portfolio-polish  
 **บทบาท:** Full-stack Industrial AI / Machine Learning Engineering project  
 **Tech stack:** C# .NET, FastAPI, Python, SQLite, scikit-learn, Streamlit, Plotly, pytest

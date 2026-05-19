@@ -1,7 +1,7 @@
 # Smart Manufacturing AI Operations Platform - Portfolio Reference Copy
 
-Use this as copy-ready portfolio content. Replace the live demo placeholder after
-the Streamlit Community Cloud app is deployed.
+Use this as copy-ready portfolio content. The live Streamlit Community Cloud app
+is deployed at `https://smart-manu-portfolio-prsworkswgg.streamlit.app/`.
 
 For a shorter paste-ready Markdown/HTML block, use
 `docs/portfolio_paste_pack.md`.
@@ -18,7 +18,7 @@ decision support.
 
 **Status:** Public portfolio demo using synthetic manufacturing data
 
-**Live demo:** `PASTE_STREAMLIT_URL_HERE`
+**Live demo:** `https://smart-manu-portfolio-prsworkswgg.streamlit.app/`
 
 **Source code:** `https://github.com/prsworkswgg/smart_manu/tree/codex/streamlit-portfolio-polish`
 
