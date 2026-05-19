@@ -15,7 +15,7 @@ What changed in this version:
 
 ## 1. Project Overview
 
-Smart Manufacturing AI Operations Platform is an end-to-end simulated-data working prototype for industrial AI, predictive maintenance, and smart manufacturing analytics.
+Smart Manufacturing AI Operations Platform is an end-to-end DEMO data operations system for industrial AI, predictive maintenance, and smart manufacturing analytics.
 
 The system demonstrates a complete operational loop:
 
@@ -50,9 +50,9 @@ Many ML portfolio projects stop at notebooks. This project intentionally goes fu
 
 This makes the project useful for interviews where the hiring manager wants evidence of production-oriented thinking, not only model experimentation.
 
-## 3. Seagate-aligned Smart Manufacturing Use Case
+## 3. manufacturer-aligned Smart Manufacturing Use Case
 
-This is a Seagate-aligned smart manufacturing use case, not a Seagate deployment.
+This is a manufacturer-aligned smart manufacturing use case, not a named manufacturer deployment.
 
 The simulated profile is inspired by precision electronics manufacturing, with machine stations such as micro press, spindle test, thermal inspection, and optical inspection. The system focuses on equipment health, production stability, predictive maintenance, and process anomaly detection.
 
@@ -60,7 +60,7 @@ The simulated profile is inspired by precision electronics manufacturing, with m
 
 This project uses simulated data only.
 
-It does not use real Seagate data.
+It does not use real named manufacturer data.
 It does not use proprietary factory data.
 It has not been deployed or validated in a real factory.
 It is not a certified production control system.
@@ -234,9 +234,29 @@ bash scripts/run_dashboard.sh
 
 The dashboard reads SQLite data and handles empty tables without crashing.
 
+### Free Portfolio Deployment
+
+For a free public portfolio demo on Streamlit Community Cloud, deploy the root
+entrypoint:
+
+```text
+streamlit_app.py
+```
+
+That entrypoint uses `data/portfolio_demo.db` and automatically creates a small
+synthetic demo database on first boot if the dashboard tables are empty. This is
+intended for a public portfolio URL that may sleep on the free tier; it is not an
+always-on factory deployment.
+
+Deployment notes are in:
+
+```text
+docs/streamlit_cloud_portfolio.md
+```
+
 ## 11. Database Schema
 
-SQLite is used as the local prototype system of record.
+SQLite is used as the local DEMO system system of record.
 
 Core tables:
 
@@ -318,7 +338,7 @@ Diagnostic hints are rule-based and explain likely operational patterns.
 
 ## 14. Edge Deployment Concept
 
-A realistic deployment pattern would place the C# collector on an edge PC near the production line. The collector sends HTTP data to a local API service. SQLite is used in the prototype; real factories would usually use a historian, message broker, PostgreSQL, cloud platform, or plant data infrastructure.
+A realistic deployment pattern would place the C# collector on an edge PC near the production line. The collector sends HTTP data to a local API service. SQLite is used in the DEMO system; real factories would usually use a historian, message broker, PostgreSQL, cloud platform, or plant data infrastructure.
 
 ## 15. How to Run
 
@@ -399,19 +419,43 @@ Actual metric values depend on the simulated data volume and settings.
 - Simulated data only
 - Simulated labels only
 - RUL is heuristic and not validated on real machines
-- SQLite is suitable for a local prototype, not high-volume factory deployment
-- No PLC, OPC UA, MQTT, historian, or MES integration yet
-- No authentication or role-based dashboard access yet
+- SQLite is suitable for a local DEMO system, not high-volume factory deployment
+- CMMS/MES handoff supports a governed HTTP connector outbox when endpoint credentials are configured
+- No PLC, OPC UA, MQTT, or historian integration is included
+- API operations endpoints use local role-backed demo keys; production SSO is not included
 - No real factory acceptance testing
 - Not a closed-loop control system
 
 ## 19. Future Work
 
 - Add OPC UA or MQTT adapter
+- Add production SSO and secrets-management integration
 - Add Docker Compose for API and dashboard
 - Add PostgreSQL option
 - Add experiment tracking
 - Add drift monitoring
+
+## 20. Connector Configuration
+
+The CMMS/MES connector dispatcher sends approved handoffs from `integration_outbox` to configured HTTP endpoints.
+
+```bash
+SMOP_CMMS_ENDPOINT=https://cmms.example.local/api/work-orders
+SMOP_CMMS_AUTH_TYPE=bearer
+SMOP_CMMS_TOKEN=replace-with-secret
+SMOP_MES_ENDPOINT=https://mes.example.local/api/events
+SMOP_MES_AUTH_TYPE=bearer
+SMOP_MES_TOKEN=replace-with-secret
+```
+
+Run dispatch through the API with a supervisor key:
+
+```bash
+curl -X POST http://127.0.0.1:8001/operations/integration-outbox/dispatch \
+  -H "x-smop-api-key: demo-supervisor-key" \
+  -H "content-type: application/json" \
+  -d '{"target_system":"cmms"}'
+```
 - Add authentication
 - Add unit and integration tests
 - Add synthetic data replay mode
@@ -422,7 +466,7 @@ Actual metric values depend on the simulated data volume and settings.
 
 Good interview positioning:
 
-> I built this as a simulated-data working prototype to show the full industrial AI workflow from C# data acquisition through API ingestion, SQLite storage, Python ML training, inference endpoints, and a Streamlit operations dashboard. It does not use real Seagate data, but it is aligned with smart manufacturing tasks such as predictive maintenance, anomaly detection, and production-line monitoring.
+> I built this as a DEMO data operations system to show the full industrial AI workflow from C# data acquisition through API ingestion, SQLite storage, Python ML training, inference endpoints, and a Streamlit operations dashboard. It does not use real named manufacturer data, but it is aligned with smart manufacturing tasks such as predictive maintenance, anomaly detection, and production-line monitoring.
 
 ## Run Full Demo
 
@@ -477,7 +521,7 @@ python scripts/generate_synthetic_factory_data.py \
   --reset
 ```
 
-The generator creates synthetic data only. It does not use real Seagate data, proprietary factory data, or real process parameters.
+The generator creates synthetic data only. It does not use real named manufacturer data, proprietary factory data, or real process parameters.
 
 ## Test Command
 
@@ -496,7 +540,7 @@ Recommended flow:
 ```bash
 bash scripts/run_full_demo.sh
 bash scripts/run_dashboard.sh
-python scripts/capture_dashboard_screenshots.py
+python scripts/capture_dashboard_screenshots.py --viewports desktop,mobile
 ```
 
 If Playwright is unavailable, the screenshot script writes manual capture instructions to `assets/screenshots/MANUAL_SCREENSHOT_INSTRUCTIONS.md`.
@@ -504,22 +548,32 @@ If Playwright is unavailable, the screenshot script writes manual capture instru
 Planned screenshot paths:
 
 ```text
-assets/screenshots/01_executive_overview.png
-assets/screenshots/02_data_acquisition.png
-assets/screenshots/03_line_monitoring.png
-assets/screenshots/04_equipment_health.png
-assets/screenshots/05_anomaly_detection.png
-assets/screenshots/06_data_quality.png
-assets/screenshots/07_model_registry.png
-assets/screenshots/08_reports.png
+assets/screenshots/desktop/01_command_center.png
+assets/screenshots/desktop/02_operations_workflow.png
+assets/screenshots/desktop/03_data_collection.png
+assets/screenshots/desktop/04_line_monitoring.png
+assets/screenshots/desktop/05_machine_investigation.png
+assets/screenshots/desktop/06_anomaly_investigation.png
+assets/screenshots/desktop/07_data_quality.png
+assets/screenshots/desktop/08_model_training.png
+assets/screenshots/desktop/09_reports_edge_setup.png
+assets/screenshots/mobile/01_command_center.png
+assets/screenshots/mobile/02_operations_workflow.png
+assets/screenshots/mobile/03_data_collection.png
+assets/screenshots/mobile/04_line_monitoring.png
+assets/screenshots/mobile/05_machine_investigation.png
+assets/screenshots/mobile/06_anomaly_investigation.png
+assets/screenshots/mobile/07_data_quality.png
+assets/screenshots/mobile/08_model_training.png
+assets/screenshots/mobile/09_reports_edge_setup.png
 ```
 
 Example Markdown references after capturing real screenshots:
 
 ```markdown
-![Executive Overview](assets/screenshots/01_executive_overview.png)
-![Equipment Health](assets/screenshots/04_equipment_health.png)
-![Model Registry](assets/screenshots/07_model_registry.png)
+![Command Center Desktop](assets/screenshots/desktop/01_command_center.png)
+![Line Monitoring Desktop](assets/screenshots/desktop/04_line_monitoring.png)
+![Command Center Mobile](assets/screenshots/mobile/01_command_center.png)
 ```
 
 ## Docker Run
